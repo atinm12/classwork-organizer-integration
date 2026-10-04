@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Classwork Organizer</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Classwork organizer + third party integration</h1>
+    <p class="subtitle">Bring your Canvas assignments and other class sites together in one place.</p>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>Canvas</h2>
+      <p>Connect your Canvas account to pull in courses and assignments.</p>
+      <button id="connect-canvas" type="button">Connect Canvas</button>
+      <p class="status" id="canvas-status">Not connected</p>
+    </section>
+
+    <section class="card">
+      <h2>Third party websites</h2>
+      <p>Add another site you use for classwork (e.g. Gradescope, Piazza, a course website).</p>
+      <button id="add-site" type="button">+ Add a website</button>
+      <ul id="site-list"></ul>
+      <p class="empty" id="site-empty">No websites added yet.</p>
+    </section>
+  </main>
+
+  <dialog id="site-dialog">
+    <form method="dialog" id="site-form">
+      <h2>Add a third party website</h2>
+      <label>Name
+        <input name="name" required placeholder="Gradescope">
+      </label>
+      <label>URL
+        <input name="url" type="url" required placeholder="https://www.gradescope.com">
+      </label>
+      <div class="actions">
+        <button type="button" id="cancel-site" class="secondary">Cancel</button>
+        <button type="submit">Add</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
