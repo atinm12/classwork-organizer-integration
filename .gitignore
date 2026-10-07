@@ -1,0 +1,15 @@
+node_modules/
+.next/
+out/
+.vercel/
+*.tsbuildinfo
+next-env.d.ts
+
+# Local env files hold secrets — never commit them.
+.env
+.env*.local
+
+.DS_Store
+
+# Local tooling
+.claude/
