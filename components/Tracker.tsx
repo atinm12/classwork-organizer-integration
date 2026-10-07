@@ -28,6 +28,8 @@ import { TopBar } from "./TopBar";
 import { TrackerContext, type TrackerCtx } from "./TrackerContext";
 
 const CLIENT_TIMEOUT_MS = 45_000;
+// On GitHub Pages this points at the JSON snapshot the workflow generates; otherwise the live API.
+const DATA_URL = process.env.NEXT_PUBLIC_DATA_URL || "/api/coursework";
 const COMPLETE_STATUSES = new Set(["submitted", "graded", "excused"]);
 const VIEWS: CalendarView[] = ["day", "week", "month"];
 
@@ -114,7 +116,7 @@ export function Tracker() {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), CLIENT_TIMEOUT_MS);
     try {
-      const res = await fetch("/api/coursework", { cache: "no-store", signal: controller.signal });
+      const res = await fetch(DATA_URL, { cache: "no-store", signal: controller.signal });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       setData((await res.json()) as CourseworkResponse);
     } catch {

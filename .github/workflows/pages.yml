@@ -1,0 +1,66 @@
+name: Deploy to GitHub Pages
+
+# GitHub Pages can't run the API route, so this workflow fetches Canvas and the course pages
+# here (where the token stays secret), bakes the result into public/coursework.json, and
+# publishes a static build. It reruns hourly to keep the data fresh.
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "17 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Fetch coursework snapshot
+        run: npm run fetch-data
+        env:
+          CANVAS_API_TOKEN: ${{ secrets.CANVAS_API_TOKEN }}
+          CANVAS_BASE_URL: ${{ vars.CANVAS_BASE_URL || secrets.CANVAS_BASE_URL }}
+          COURSE_PAGES: ${{ vars.COURSE_PAGES || secrets.COURSE_PAGES }}
+          APP_TIMEZONE: ${{ vars.APP_TIMEZONE }}
+          SOURCE_TIMEOUT_MS: ${{ vars.SOURCE_TIMEOUT_MS }}
+
+      - name: Build static site
+        run: |
+          # Route handlers can't be statically exported; the snapshot replaces the API here.
+          rm -rf app/api
+          npm run build
+        env:
+          STATIC_EXPORT: "1"
+          PAGES_BASE_PATH: /${{ github.event.repository.name }}
+          NEXT_PUBLIC_DATA_URL: /${{ github.event.repository.name }}/coursework.json
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

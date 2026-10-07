@@ -79,6 +79,28 @@ Open http://localhost:3000.
 
 The page is public and anyone with the URL can see the coursework it shows. Don't share the URL if that matters to you, or turn on Vercel's Deployment Protection.
 
+## Deploying to GitHub Pages
+
+GitHub Pages only serves static files, so it can't run the API route. Instead,
+[`.github/workflows/pages.yml`](.github/workflows/pages.yml) fetches Canvas and your course pages
+inside GitHub Actions, where the token stays secret. It saves the result as `coursework.json`,
+builds a static copy of the site, and publishes it. This runs on every push to `main` and
+**once an hour**, so the data can be up to about an hour old (the footer shows when it was last
+updated).
+
+Setup, in the repo on GitHub, under **Settings → Secrets and variables → Actions**:
+
+1. **Secrets** tab → **New repository secret**: `CANVAS_API_TOKEN`.
+2. **Variables** tab → **New repository variable**: `CANVAS_BASE_URL`, `APP_TIMEZONE`, and optionally `COURSE_PAGES`.
+3. **Actions** tab → **Deploy to GitHub Pages** → **Run workflow** to publish right away.
+
+The site is at `https://<your-username>.github.io/<repo-name>/`. Notes:
+
+- The token is never sent to the browser, but the fetched assignment list (`coursework.json`) is
+  as public as the page itself.
+- GitHub pauses scheduled workflows in repos with no activity for 60 days. If the data stops
+  updating, re-enable the workflow on the Actions tab.
+
 ## Project layout
 
 ```
@@ -90,4 +112,5 @@ lib/types.ts                      shared CourseworkItem shape
 lib/dates.ts                      timezone helpers shared by server and browser
 components/                       UI: Tracker (shell), calendar/ (Month, TimeGrid), RightPanel, AgendaList, dialogs
 lib/calendar.ts, lib/courseColors.ts  calendar math and course colors
+scripts/fetch-coursework.ts       writes the data snapshot for GitHub Pages
 ```

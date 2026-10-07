@@ -72,6 +72,9 @@ export function SettingsView({ data, loading, timeZone, courseColors, saves, set
           {data && <> · last fetched {new Date(data.generatedAt).toLocaleTimeString("en-US", { timeZone })}</>}.
         </p>
         <p className="muted small">Change the timezone with the <code>APP_TIMEZONE</code> environment variable.</p>
+        {process.env.NEXT_PUBLIC_DATA_URL && (
+          <p className="muted small">This copy is hosted on GitHub Pages, so Canvas and course pages are re-fetched about once an hour rather than live.</p>
+        )}
       </section>
 
       <section className="settings-section">
