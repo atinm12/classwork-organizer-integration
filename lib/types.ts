@@ -14,6 +14,8 @@ export interface CourseworkItem {
   source: string;
   /** True when the source gave a date but no time; dueDate is then 11:59 PM in the app timezone. */
   dateOnly?: boolean;
+  /** Free-form notes; currently only set on items the user adds themselves. */
+  description?: string;
 }
 
 export type SourceKind = "canvas" | "course-page";

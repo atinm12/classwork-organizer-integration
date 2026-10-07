@@ -3,11 +3,12 @@
 Upcoming assignments and tests from **Canvas** and your **course schedule pages**, in one place.
 Every page load fetches all sources live and in parallel. There is no database, no caching, and no background job.
 
-- **Assignments / Tests** views. Canvas quiz-backed items and pages mentioning quiz/exam/midterm/final count as tests.
-- Sort by due date (earliest or latest first), course, or points.
-- Time window: *Last 10 days & upcoming* (default), *Upcoming only*, or *All dates*.
-- A "Today" divider in date-sorted views, overdue badges, and a separate **Date TBA** section.
-- "Mark done" checkboxes, your own custom items, and a "saved me" counter. These are stored in your browser (localStorage).
+- **Calendar first.** Day, Week, and Month views show assignments and tests as events on their due dates and times. Each course gets its own pastel color, and items without a time sit in a "Due" row at the top of the day.
+- Click any event for details, a link back to its source, and a **Mark complete** toggle. Completed items are muted and struck through, and overdue ones get a small red dot.
+- **Search** across titles, courses, and sources (pick a result to jump to it), plus a **course filter**.
+- **+ Add** your own assignments (name, course, date, time, description, type, completed). They are saved in your browser.
+- **Assignments / Tests** sections list everything in a compact table with sorting (by due date, course, or points), a time window, a "Today" divider, and a **Date TBA** group.
+- A "saved me" counter in the sidebar. Completed marks, your own items, and the counter live in localStorage.
 - If one source fails or is slow, the rest still load and a notice explains what went wrong.
 
 Built with Next.js (App Router) + TypeScript. The API route is `app/api/coursework/route.ts` and HTML is parsed with cheerio.
@@ -87,5 +88,6 @@ lib/sources/canvas.ts             Canvas REST API source
 lib/sources/coursePage/           course page source, generic parser, parser registry
 lib/types.ts                      shared CourseworkItem shape
 lib/dates.ts                      timezone helpers shared by server and browser
-components/                       UI (Tracker, ItemCard, AddItemForm)
+components/                       UI: Tracker (shell), calendar/ (Month, TimeGrid), RightPanel, AgendaList, dialogs
+lib/calendar.ts, lib/courseColors.ts  calendar math and course colors
 ```
