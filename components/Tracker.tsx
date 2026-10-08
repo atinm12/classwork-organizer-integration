@@ -108,7 +108,6 @@ export function Tracker() {
 
   const [done, setDone] = useStoredState<Record<string, boolean>>("co-done", {});
   const [custom, setCustom] = useStoredState<CourseworkItem[]>("co-custom-items", []);
-  const [saves, setSaves] = useStoredState<number>("co-saves", 0);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -247,7 +246,7 @@ export function Tracker() {
   return (
     <TrackerContext.Provider value={ctx}>
       <div className="app">
-        <Sidebar section={section} onSection={setSection} saves={saves} onSave={() => setSaves((n) => n + 1)} />
+        <Sidebar section={section} onSection={setSection} />
 
         <div className="main">
           <TopBar
@@ -351,8 +350,6 @@ export function Tracker() {
                     loading={loading}
                     timeZone={timeZone}
                     courseColors={courseColors}
-                    saves={saves}
-                    setSaves={setSaves}
                     onRefresh={load}
                     onClearDone={() => setDone({})}
                   />

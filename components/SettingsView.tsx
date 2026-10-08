@@ -9,13 +9,11 @@ interface Props {
   loading: boolean;
   timeZone: string;
   courseColors: Map<string, CourseColor>;
-  saves: number;
-  setSaves: (fn: (n: number) => number) => void;
   onRefresh: () => void;
   onClearDone: () => void;
 }
 
-export function SettingsView({ data, loading, timeZone, courseColors, saves, setSaves, onRefresh, onClearDone }: Props) {
+export function SettingsView({ data, loading, timeZone, courseColors, onRefresh, onClearDone }: Props) {
   return (
     <div className="settings">
       <section className="settings-section">
@@ -75,23 +73,6 @@ export function SettingsView({ data, loading, timeZone, courseColors, saves, set
         {process.env.NEXT_PUBLIC_DATA_URL && (
           <p className="muted small">This copy is hosted on GitHub Pages, so Canvas and course pages are re-fetched about once an hour rather than live.</p>
         )}
-      </section>
-
-      <section className="settings-section">
-        <h3>Saved me counter</h3>
-        <div className="saves-row">
-          <span>
-            Saved me from missing something <strong>{saves}</strong> {saves === 1 ? "time" : "times"}
-          </span>
-          <button type="button" className="btn btn-ghost" onClick={() => setSaves((n) => n + 1)}>
-            +1
-          </button>
-          {saves > 0 && (
-            <button type="button" className="btn btn-ghost" onClick={() => setSaves((n) => n - 1)}>
-              −1
-            </button>
-          )}
-        </div>
       </section>
 
       <section className="settings-section">

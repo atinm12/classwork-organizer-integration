@@ -11,17 +11,7 @@ const NAV: { id: Section; label: string; Icon: typeof CalendarIcon }[] = [
   { id: "settings", label: "Settings", Icon: SettingsIcon },
 ];
 
-export function Sidebar({
-  section,
-  onSection,
-  saves,
-  onSave,
-}: {
-  section: Section;
-  onSection: (s: Section) => void;
-  saves: number;
-  onSave: () => void;
-}) {
+export function Sidebar({ section, onSection }: { section: Section; onSection: (s: Section) => void }) {
   return (
     <aside className="sidebar">
       <div className="brand">
@@ -53,9 +43,6 @@ export function Sidebar({
           <br />
           big progress.
         </p>
-        <button type="button" className="saves-mini" onClick={onSave} title="Tally a time this app saved you from missing something">
-          Saved me <strong>{saves}</strong>× <span className="saves-plus">+1</span>
-        </button>
       </div>
     </aside>
   );
