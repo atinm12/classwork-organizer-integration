@@ -428,8 +428,8 @@ Work I did directly, outside of prompting:
 - **Product decisions:** chose the hourly-refresh GitHub Pages setup; cut the "add external website" feature; decided which UI elements were clutter (profile menu, saved-me counter, tagline, browser-data and sources sections) and removed them.
 - **README content:** dictated the README's main sections myself.
 
-**[TODO: you]** Code edits I made by hand (file, what changed, why):
-- 
+Code edits I made by hand:
+- `components/calendar/MonthView.tsx`: changed `MAX_CHIPS` from 3 to 4, so Month view shows one more assignment per day before collapsing the rest into "+N more". My busy days were getting cut off too early. (Commit "Show 4 events per day in month view".)
 
 ## One place AI got it wrong
 
