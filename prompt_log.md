@@ -13,7 +13,7 @@
 - **Wed Oct 7, morning:** Next.js rebuild with Canvas and course-page sources; mockup iteration in ChatGPT and the calendar redesign; GitHub Pages deployment (Phases 2–4).
 - **Wed Oct 7, evening:** connecting my real Canvas account, README, UI cleanup iterations, and this log (Phases 4–6).
 
-**[TODO: you]** Total time: about __ hours.
+**Total time:** about 8.5 hours, across ideation, coding, revisions, deployment, and documentation.
 
 ## Development process
 
