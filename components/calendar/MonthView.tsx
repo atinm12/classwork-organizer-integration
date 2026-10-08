@@ -2,10 +2,11 @@
 
 import { byTime, formatKey, monthGrid, sameMonth, type DayKey } from "@/lib/calendar";
 import type { CourseworkItem } from "@/lib/types";
-import { useTracker } from "../TrackerContext";
+import { useTracker 
+       } from "../TrackerContext";
 import { EventChip } from "./Event";
 
-const MAX_CHIPS = 3;
+const MAX_CHIPS = 4;
 const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 interface Props {
