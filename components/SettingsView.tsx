@@ -10,10 +10,9 @@ interface Props {
   timeZone: string;
   courseColors: Map<string, CourseColor>;
   onRefresh: () => void;
-  onClearDone: () => void;
 }
 
-export function SettingsView({ data, loading, timeZone, courseColors, onRefresh, onClearDone }: Props) {
+export function SettingsView({ data, loading, timeZone, courseColors, onRefresh }: Props) {
   return (
     <div className="settings">
       <section className="settings-section">
@@ -73,14 +72,6 @@ export function SettingsView({ data, loading, timeZone, courseColors, onRefresh,
         {process.env.NEXT_PUBLIC_DATA_URL && (
           <p className="muted small">This copy is hosted on GitHub Pages, so Canvas and course pages are re-fetched about once an hour rather than live.</p>
         )}
-      </section>
-
-      <section className="settings-section">
-        <h3>Browser data</h3>
-        <p className="muted small">Completed marks and your own assignments are saved in this browser only.</p>
-        <button type="button" className="btn btn-ghost" onClick={onClearDone}>
-          Clear all completed marks
-        </button>
       </section>
     </div>
   );

@@ -351,7 +351,6 @@ export function Tracker() {
                     timeZone={timeZone}
                     courseColors={courseColors}
                     onRefresh={load}
-                    onClearDone={() => setDone({})}
                   />
                 )}
               </div>
