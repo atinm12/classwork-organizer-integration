@@ -125,15 +125,6 @@ h1, h2, h3 { margin: 0; }
 .search-result-date { min-width: 44px; text-align: right; }
 .search-empty { padding: 10px 12px; color: var(--muted); }
 
-.profile { position: relative; margin-left: auto; }
-.profile-btn { display: flex; align-items: center; gap: 4px; background: none; border: none; color: var(--ink-2); padding: 2px; }
-.avatar { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: var(--sage-ink); color: #fff; }
-.menu {
-  position: absolute; right: 0; top: 44px; z-index: 20; min-width: 170px; padding: 4px;
-  background: var(--surface); border: 1px solid var(--line); border-radius: 8px; box-shadow: var(--shadow);
-}
-.menu button { display: flex; align-items: center; gap: 8px; width: 100%; padding: 8px 10px; background: none; border: none; border-radius: 6px; text-align: left; }
-.menu button:hover:not(:disabled) { background: var(--surface-2); }
 
 .workspace { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 18px; padding: 0 24px 0 8px; }
 .workspace.has-panel { grid-template-columns: minmax(0, 1fr) 300px; }

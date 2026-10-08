@@ -60,11 +60,6 @@ export const ChevronRight = (p: P) => (
     <path d="m9 6 6 6-6 6" />
   </Icon>
 );
-export const ChevronDown = (p: P) => (
-  <Icon {...p}>
-    <path d="m6 9 6 6 6-6" />
-  </Icon>
-);
 export const PlusIcon = (p: P) => (
   <Icon {...p}>
     <path d="M12 5v14M5 12h14" />
@@ -93,12 +88,6 @@ export const RefreshIcon = (p: P) => (
 export const ExternalIcon = (p: P) => (
   <Icon {...p}>
     <path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" />
-  </Icon>
-);
-export const UserIcon = (p: P) => (
-  <Icon {...p}>
-    <circle cx="12" cy="8.5" r="3.5" />
-    <path d="M5 20c1.2-3.5 4-5 7-5s5.8 1.5 7 5" />
   </Icon>
 );
 

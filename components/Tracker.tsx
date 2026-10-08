@@ -262,9 +262,6 @@ export function Tracker() {
               }
               setOpenId(i.id);
             }}
-            onSettings={() => setSection("settings")}
-            onRefresh={load}
-            loading={loading}
           />
 
           <div className={section === "calendar" && view !== "month" ? "workspace has-panel" : "workspace"}>
