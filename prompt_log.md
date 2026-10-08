@@ -1,16 +1,19 @@
 # Prompt Log — Classwork Organizer + Third-Party Integration
 
-> **Draft note:** Claude Code drafted this log from our conversation history. The prompts below are copied word for word from what I typed (including typos and filler words). Sections marked **[TODO: you]** need my own input before submission.
+> Claude Code assembled this log from my conversation history with it and with ChatGPT. Every prompt is copied word for word from what I typed, typos and filler words included.
 
 ## Tools used, and for which job
 
 - **Claude Code (Anthropic, Claude Opus 5.5 model)**, in the Claude desktop app. Used for almost all of the building: planning the architecture, writing the Next.js/TypeScript code, testing it against mock Canvas data in its built-in browser, debugging, and deploying to GitHub Pages through GitHub Actions. I picked it because it works directly in my project folder and can run, test, and push code itself, instead of me copying snippets out of a chat window.
-- **ChatGPT image generation (OpenAI)**. Used to create a visual mockup of the calendar UI, which I then gave to Claude Code as the design reference. An image model was better for exploring what the app should *look* like before any code existed.
-- **[TODO: you]** If you used ChatGPT or another tool to write the long "Coursework Tracker" spec in Prompt 3 or the redesign spec in Prompt 5, say so here and explain why.
+- **ChatGPT (OpenAI), with image generation**. Used for UI design. Describing a calendar layout to Claude Code in words didn't get me what I wanted, so I switched to ChatGPT to iterate on *pictures* of the UI until one looked right. ChatGPT then wrote the detailed redesign prompt (Prompt 5) for me to hand to Claude Code along with the mockup. An image model is a better tool for "what should this look like" questions, and a coding agent is better at turning a precise spec into working code.
 
-## Time spent
+## Timeline
 
-**[TODO: you]** Rough breakdown, e.g. planning/spec writing, building, design iteration, deployment and secrets setup, README/prompt log, testing, demo video. Total ≈ __ hours.
+- **Sun Oct 4:** first landing page and GitHub repo (Phase 1).
+- **Wed Oct 7, morning:** Next.js rebuild with Canvas and course-page sources; mockup iteration in ChatGPT and the calendar redesign; GitHub Pages deployment (Phases 2–4).
+- **Wed Oct 7, evening:** connecting my real Canvas account, README, UI cleanup iterations, and this log (Phases 4–6).
+
+**[TODO: you]** Total time: about __ hours.
 
 ## Development process
 
@@ -114,11 +117,27 @@ write what i need to do to make the app work
 
 ### Phase 3 — Calendar-first redesign
 
-Before this phase, I used ChatGPT's image generator to make a mockup of a calendar-based layout.
+I first tried describing the calendar layout I wanted to Claude Code, but it kept producing a list instead of a calendar (see "One place AI got it wrong" below). So I moved the design work to ChatGPT.
 
-**[TODO: you]** Paste the exact ChatGPT image prompt here.
+**ChatGPT prompt A** (sent with a screenshot of the app's list UI at the time)
+```
+make a modern, non-block ui mockup. send an image
+```
+ChatGPT generated a dark-themed mockup, but it was still a list of assignment rows with colored tags.
 
-**Prompt 5** (sent with the mockup image attached)
+**ChatGPT prompt B**
+```
+change the colors. dont use blocks. make it a calednar ui, that has the assignments in the day of the calednar that can be viewed daily, monthly, or weekly. first give an image mockup, then give me the prompt i should tell claude code to get this output
+```
+This produced the mockup I used: a light, sage-green week-view calendar with pastel assignment blocks, a left sidebar, and a right panel with the selected day and upcoming assignments.
+
+**ChatGPT prompt C**
+```
+give me the prompt i should tell claude code to get this output
+```
+ChatGPT wrote the long redesign prompt below. It also recommended adding two closing lines telling Claude Code to reuse the existing data and not fall back to the card layout, because otherwise Claude Code might make something that "looks like the reference at the top but still keeps the old card/list architecture underneath." I included those lines.
+
+**Prompt 5** (sent to Claude Code with the ChatGPT mockup attached; the text is ChatGPT's prompt from prompt C, plus my last line)
 ```
 Redesign my existing Classwork Organizer UI to match the attached reference image.
 The goal is to completely move away from the current "list of assignment cards" / dashboard-block design and make the calendar the central experience.
@@ -315,7 +334,7 @@ Do not use the old stacked-card assignment layout anywhere in the primary calend
 
 remove all references to pickleball
 ```
-I sent this prompt twice (I interrupted the first send). The last line was mine. The mockup had a pickleball illustration in the sidebar, and I didn't want it in the app. Claude Code rebuilt the frontend: Day/Week/Month views, pastel events colored by course, search, a course filter, an event detail popup, an "add assignment" form, and a right-hand panel. It kept the backend and all the existing data. It tested every interaction against mock data shaped like my real courses.
+I sent this prompt twice (I interrupted the first send). The last line was mine: the mockup had a pickleball illustration in the sidebar, and I didn't want it in the app. Claude Code rebuilt the frontend: Day/Week/Month views, pastel events colored by course, search, a course filter, an event detail popup, an "add assignment" form, and a right-hand panel. It kept the backend and all the existing data. It tested every interaction against mock data shaped like my real courses.
 
 ### Phase 4 — Getting it deployed and working
 
@@ -388,12 +407,18 @@ have i done all these
 
 ## Code I wrote or changed myself
 
-**[TODO: you]** List the changes you made by hand, with the file and why. For example: changed a course color in `lib/courseColors.ts`, renamed a label in `components/Sidebar.tsx`, or adjusted how many events fit in a month cell (`MAX_CHIPS` in `components/calendar/MonthView.tsx`). Also include manual setup you did: adding the GitHub secret and variables, [if you did] deploying on Vercel, and adding the project to my portfolio.
+Work I did directly, outside of prompting:
+
+- **Design direction:** iterated on mockups in ChatGPT until I found a calendar layout I liked, and chose it as the reference for the redesign.
+- **Secrets and configuration:** generated my Canvas access token and added it on GitHub as the `CANVAS_API_TOKEN` repository secret, and added the `CANVAS_BASE_URL` variable. The token never went through the AI.
+- **Product decisions:** chose the hourly-refresh GitHub Pages setup; cut the "add external website" feature; decided which UI elements were clutter (profile menu, saved-me counter, tagline, browser-data and sources sections) and removed them.
+- **README content:** dictated the README's main sections myself.
+
+**[TODO: you]** Code edits I made by hand (file, what changed, why):
+- 
 
 ## One place AI got it wrong
 
-**[TODO: you — reword in your own voice, and keep whichever example you think is best.]**
+Claude Code got the UI wrong at first. I tried to describe the UI I wanted, especially the calendar format, to Claude Code, and it didn't produce what I wanted: it still gave me a list of assignments, not a calendar. So I went to ChatGPT, asked it for a specific mockup, and iterated on it until I found one I liked (ChatGPT prompts A–C above). Then I gave Claude Code a screenshot of that mockup together with the detailed prompt, and that produced the calendar UI the app has now. The lesson for me: when the problem is visual, show the AI a picture of the target instead of describing it in words.
 
-When I asked to deploy on GitHub Pages, Claude Code wrote a script to fetch my Canvas data during the GitHub Actions build. It was confident the script would work, but the first time it ran, the script crashed: it used `await` at the top level of the file, which the tool running it (tsx) doesn't support in this project's setup. That would have broken the build. Claude Code only caught this because it ran the same build steps locally before pushing, and then wrapped the code in an `async main()` function. A related problem came earlier: the original plan assumed Vercel deployment, but the AI couldn't log in to Vercel, so I had to choose an entirely different setup (hourly data snapshots on GitHub Pages). The lesson I took away: AI-written code should be run end-to-end before trusting it, and deployment should be decided early, not at the end.
-
-Other smaller mistakes it made and fixed after testing: the course-page parser initially dropped the time from table rows like "Midterm Exam, 6:00 pm" and left junk words in titles like "Final exam: at".
+A smaller example: when I asked to deploy on GitHub Pages, Claude Code wrote a script to fetch my Canvas data during the GitHub Actions build. The first time it ran, the script crashed, because it used `await` at the top level of the file, which the tool running it (tsx) doesn't support in this project's setup. Claude Code caught this only because it ran the build steps locally before pushing, and it fixed the script by wrapping the code in an `async main()` function. Its original plan to deploy on Vercel also didn't work, since it couldn't log in to Vercel there, so the deployment had to be redesigned for GitHub Pages.
