@@ -221,7 +221,6 @@ export function Tracker() {
 
   const openItem = allItems.find((i) => i.id === openId) ?? null;
   const failed = data?.sources.filter((s) => !s.ok) ?? [];
-  const noteCount = data?.sources.filter((s) => s.ok && s.warnings.length).length ?? 0;
 
   const dayItems = itemsByDay.get(cursor) ?? [];
   const daySummary = (
@@ -304,7 +303,7 @@ export function Tracker() {
                 </div>
               </div>
 
-              {(fetchError || failed.length > 0 || (noteCount > 0 && section !== "settings")) && (
+              {(fetchError || failed.length > 0) && (
                 <div className="notices" aria-live="polite">
                   {fetchError && <p className="notice">{fetchError}</p>}
                   {failed.map((s) => (
@@ -312,14 +311,6 @@ export function Tracker() {
                       Couldn&apos;t load <strong>{s.name}</strong> right now. {s.error}
                     </p>
                   ))}
-                  {noteCount > 0 && section !== "settings" && (
-                    <p className="notice notice-soft">
-                      {noteCount} source{noteCount === 1 ? " has a note" : "s have notes"}.{" "}
-                      <button type="button" className="text-btn" onClick={() => setSection("settings")}>
-                        View in Settings
-                      </button>
-                    </p>
-                  )}
                 </div>
               )}
 
@@ -347,10 +338,8 @@ export function Tracker() {
                 {section === "settings" && (
                   <SettingsView
                     data={data}
-                    loading={loading}
                     timeZone={timeZone}
                     courseColors={courseColors}
-                    onRefresh={load}
                   />
                 )}
               </div>

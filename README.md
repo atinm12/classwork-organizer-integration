@@ -6,7 +6,7 @@
 
 Classwork Organizer connects to a student's Canvas account (in this case, mine) and also to third-party course websites. Many CS courses host their schedules on their own websites instead of on Canvas, so the app reads those pages too. It pulls the due date of every assignment from Canvas and from each external site and puts everything in one place.
 
-The app has several views. The **Calendar** view shows assignments on their due dates, with Day, Week, and Month layouts. The **Assignments** view lists each assignment individually, the **Tests** view does the same for tests, and the **Settings** view shows which sources loaded and lets you adjust a few options.
+The app has several views. The **Calendar** view shows assignments on their due dates, with Day, Week, and Month layouts. The **Assignments** view lists each assignment individually, the **Tests** view does the same for tests, and the **Settings** view shows each course's color and the timezone used for due times.
 
 ## How to use it
 

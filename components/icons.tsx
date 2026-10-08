@@ -80,11 +80,6 @@ export const FilterIcon = (p: P) => (
     <path d="M4 6h16M7 12h10M10 18h4" />
   </Icon>
 );
-export const RefreshIcon = (p: P) => (
-  <Icon {...p}>
-    <path d="M20 11a8 8 0 1 0-2.3 5.7M20 5v6h-6" />
-  </Icon>
-);
 export const ExternalIcon = (p: P) => (
   <Icon {...p}>
     <path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" />
