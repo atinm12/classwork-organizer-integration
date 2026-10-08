@@ -10,14 +10,14 @@ export interface CourseColor {
 
 // Desaturated pastels; each pairs a soft fill with a mid-tone accent.
 export const PALETTE: Record<string, CourseColor> = {
-  blue: { name: "blue", bg: "#e4ecf4", accent: "#7c9fc2", ink: "#2c4660" },
-  purple: { name: "purple", bg: "#ebe6f3", accent: "#9a8ac0", ink: "#463a63" },
-  pink: { name: "pink", bg: "#f5e6ea", accent: "#c9919f", ink: "#663845" },
-  yellow: { name: "yellow", bg: "#f6efd9", accent: "#cdb06a", ink: "#5c4a1c" },
-  green: { name: "green", bg: "#e3eee5", accent: "#86ad91", ink: "#2f4e38" },
-  peach: { name: "peach", bg: "#f5e8de", accent: "#cf9f80", ink: "#5f3e28" },
-  teal: { name: "teal", bg: "#e0eeec", accent: "#76aaa4", ink: "#2b4c49" },
-  lavender: { name: "lavender", bg: "#eeeaf6", accent: "#a99ccf", ink: "#4a4166" },
+  blue: { name: "blue", bg: "#e8edf2", accent: "#8fa5bb", ink: "#33475a" },
+  purple: { name: "purple", bg: "#ece9f1", accent: "#a39bb8", ink: "#4a4359" },
+  pink: { name: "pink", bg: "#f2e9eb", accent: "#bfa0a8", ink: "#5c4248" },
+  yellow: { name: "yellow", bg: "#f3efe3", accent: "#c4b183", ink: "#574b2c" },
+  green: { name: "green", bg: "#e7eee8", accent: "#97ad9d", ink: "#3a4f40" },
+  peach: { name: "peach", bg: "#f2ebe5", accent: "#c4a690", ink: "#584536" },
+  teal: { name: "teal", bg: "#e5eeed", accent: "#8eaca8", ink: "#36504d" },
+  lavender: { name: "lavender", bg: "#efedf3", accent: "#aba4c4", ink: "#4b465e" },
 };
 
 const ORDER = ["blue", "purple", "green", "yellow", "pink", "teal", "peach", "lavender"];

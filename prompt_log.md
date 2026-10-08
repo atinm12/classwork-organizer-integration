@@ -405,12 +405,26 @@ have i done all these
 ```
 (I pasted the full Project 2 requirements.) Claude Code checked the live site, repo, git history for secrets, and my portfolio, and listed what was still missing: this prompt log, my own code edits, and a portfolio link.
 
+
+**Prompt 17** (after asking Claude Code to suggest softer values, I chose these colors)
+```
+blue: { name: "blue", bg: "#e8edf2", accent: "#8fa5bb", ink: "#33475a" },
+purple: { name: "purple", bg: "#ece9f1", accent: "#a39bb8", ink: "#4a4359" },
+pink: { name: "pink", bg: "#f2e9eb", accent: "#bfa0a8", ink: "#5c4248" },
+yellow: { name: "yellow", bg: "#f3efe3", accent: "#c4b183", ink: "#574b2c" },
+green: { name: "green", bg: "#e7eee8", accent: "#97ad9d", ink: "#3a4f40" },
+peach: { name: "peach", bg: "#f2ebe5", accent: "#c4a690", ink: "#584536" },
+teal: { name: "teal", bg: "#e5eeed", accent: "#8eaca8", ink: "#36504d" },
+lavender: { name: "lavender", bg: "#efedf3", accent: "#aba4c4", ink: "#4b465e" }, I want to add this to course colors on my behalf. Add it.
+```
+I wanted the course colors less bright, so the calendar feels less in-your-face and more relaxed. Claude Code applied these desaturated values to the palette in `lib/courseColors.ts`.
 ## Code I wrote or changed myself
 
 Work I did directly, outside of prompting:
 
 - **Design direction:** iterated on mockups in ChatGPT until I found a calendar layout I liked, and chose it as the reference for the redesign.
 - **Secrets and configuration:** generated my Canvas access token and added it on GitHub as the `CANVAS_API_TOKEN` repository secret, and added the `CANVAS_BASE_URL` variable. The token never went through the AI.
+- **Color direction:** chose softer, desaturated course colors for a calmer UI (Prompt 17; Claude Code applied them).
 - **Product decisions:** chose the hourly-refresh GitHub Pages setup; cut the "add external website" feature; decided which UI elements were clutter (profile menu, saved-me counter, tagline, browser-data and sources sections) and removed them.
 - **README content:** dictated the README's main sections myself.
 
