@@ -1,116 +1,135 @@
-# Classwork Organizer
+# Classwork Organizer + Third-Party Integration
 
-Upcoming assignments and tests from **Canvas** and your **course schedule pages**, in one place.
-Every page load fetches all sources live and in parallel. There is no database, no caching, and no background job.
+**Live site:** https://atinm12.github.io/classwork-organizer-integration/
 
-- **Calendar first.** Day, Week, and Month views show assignments and tests as events on their due dates and times. Each course gets its own pastel color, and items without a time sit in a "Due" row at the top of the day.
-- Click any event for details, a link back to its source, and a **Mark complete** toggle. Completed items are muted and struck through, and overdue ones get a small red dot.
-- **Search** across titles, courses, and sources (pick a result to jump to it), plus a **course filter**.
-- **+ Add** your own assignments (name, course, date, time, description, type, completed). They are saved in your browser.
-- **Assignments / Tests** sections list everything in a compact table with sorting (by due date, course, or points), a time window, a "Today" divider, and a **Date TBA** group.
-- A "saved me" counter in the sidebar. Completed marks, your own items, and the counter live in localStorage.
-- If one source fails or is slow, the rest still load and a notice explains what went wrong.
+## What the project does
 
-Built with Next.js (App Router) + TypeScript. The API route is `app/api/coursework/route.ts` and HTML is parsed with cheerio.
+Classwork Organizer connects to a student's Canvas account (in this case, mine) and also to third-party course websites. Many CS courses host their schedules on their own websites instead of on Canvas, so the app reads those pages too. It pulls the due date of every assignment from Canvas and from each external site and puts everything in one place.
 
-## Configuration
+The app has several views. The **Calendar** view shows assignments on their due dates, with Day, Week, and Month layouts. The **Assignments** view lists each assignment individually, the **Tests** view does the same for tests, and the **Settings** view shows which sources loaded and lets you adjust a few options.
 
-All configuration comes from environment variables. Nothing is hardcoded. See [`.env.example`](.env.example).
+## How to use it
+
+My Canvas account is already connected, so the site shows my coursework as soon as it opens. The Canvas token is stored as a GitHub secret, not in the code (see "How secrets are handled" below). You can also add more course websites, and you can add your own assignments with the **+ Add** button.
+
+To use the app, switch between the Calendar, Assignments, and Tests views, and between Day, Week, and Month on the calendar. Click any assignment to see its details, then use the link to open it in Canvas or on the course website in a new tab. You can also mark an assignment complete, search for assignments, and filter by course.
+
+The idea is to check it every day so you finish your assignments on time.
+
+## Features I'm most proud of
+
+The feature I'm most proud of is the **calendar UI**, because it's very clean. At first the app only had the assignments list. The list still exists, and by default it also shows assignments from up to 10 days before today, so you can see recent past assignments you might have missed. The calendar, though, is much cleaner. Every course has its own color, completed work is crossed out, and overdue work is flagged. Each assignment links straight to its Canvas page or course website, depending on where it came from.
+
+## How to run it
+
+The easiest way is to open the live site on GitHub Pages: https://atinm12.github.io/classwork-organizer-integration/. The data refreshes automatically about once an hour.
+
+To run it on your own computer:
+
+1. Install [Node.js](https://nodejs.org/) (version 20 or newer).
+2. Clone this repository and open the folder in a terminal.
+3. Run `npm install`.
+4. Copy `.env.example` to a new file named `.env.local`, and fill in your Canvas URL, your Canvas access token, and optionally your course website URLs.
+5. Run `npm run dev` and open http://localhost:3000.
+
+## How secrets are handled
+
+The only secret is my Canvas access token. It is **never written into the code or committed to the repository.**
+
+- **On GitHub:** the token is saved as a repository secret, under Settings → Secrets and variables → Actions. A GitHub Actions workflow uses it on GitHub's servers to fetch my assignments and publish the site. The token never reaches the browser, and GitHub hides it, including in the workflow logs.
+- **Locally:** the token goes in `.env.local`, which is listed in `.gitignore` so it can't be committed by accident. `.env.example` only lists the variable names, with no values.
+
+One thing to note: the assignment list itself (titles and due dates) is visible to anyone who has the site link.
+
+## How I used AI
+
+I did all of the ideation myself: what the app should do, which sources it should connect to, and what features it needed. I used AI to build the basic features. For the design, I used ChatGPT's image generator to create a mockup of the calendar interface, gave that mockup to Claude Code, and Claude Code built the full UI from it. So the ideas were mine, while most of the building and the UI design were done by AI. After that, I decided on the changes I wanted in each iteration, and the AI implemented them.
+
+### Citations
+
+- **Claude Code** (Anthropic), using the **Claude Opus 5.5** model. It wrote most of the code in this repository: the Canvas and course-website integration, the calendar and list interfaces, and the GitHub Pages deployment workflow. It also wrote the AI-generated documentation section below.
+- **ChatGPT image generation** (OpenAI) produced the UI mockup used as the visual reference for the calendar design.
+- **Canvas LMS REST API** (Instructure): the app reads courses and assignments through this API.
+- Open-source tools the app is built on: **Next.js** and **React** (web framework), **cheerio** (reads course website HTML), the **Inter** typeface (via Google Fonts), and **GitHub Actions / GitHub Pages** (hosting).
+
+---
+
+## AI-generated documentation
+
+*Everything below this line was written by Claude Code (Claude Opus 5.5), not by me. It is technical reference for configuring and deploying the project.*
+
+### Overview
+
+Classwork Organizer is a Next.js (App Router) + TypeScript app. Coursework comes from two kinds of sources, both configured with environment variables:
+
+1. **Canvas**, via the Canvas REST API with a personal access token. Quiz-backed assignments are classified as tests.
+2. **Course schedule pages**, which are fetched and scanned for lines that contain both a date and a keyword such as quiz, exam, homework, project, lab, or due.
+
+Each source runs in parallel with its own timeout. If one fails, the others still load, and the app shows an inline notice explaining which source failed and why.
+
+### Configuration
+
+See [`.env.example`](.env.example).
 
 | Variable | Required | Description |
 | --- | --- | --- |
-| `CANVAS_BASE_URL` | for Canvas | Your school's Canvas URL, e.g. `https://school.instructure.com` |
+| `CANVAS_BASE_URL` | for Canvas | Your school's Canvas URL, e.g. `https://canvas.cmu.edu` |
 | `CANVAS_API_TOKEN` | for Canvas | A Canvas personal access token (see below) |
-| `COURSE_PAGES` | optional | JSON array of course schedule pages to scrape (see below) |
-| `APP_TIMEZONE` | recommended | IANA timezone such as `America/Los_Angeles`. Used to read dates on course pages and to display every due time. Defaults to `UTC`. |
-| `SOURCE_TIMEOUT_MS` | optional | Per-source timeout, default `10000` |
+| `COURSE_PAGES` | optional | JSON array of course schedule pages to read (see below) |
+| `APP_TIMEZONE` | recommended | IANA timezone such as `America/New_York`. Used to read dates on course pages and to display due times. Defaults to `UTC`. |
+| `SOURCE_TIMEOUT_MS` | optional | Per-source timeout in milliseconds, default `10000` |
 
-### Generating a Canvas access token
+#### Generating a Canvas access token
 
 1. Log in to Canvas and open **Account → Settings**.
 2. Under **Approved Integrations**, click **+ New Access Token**.
-3. Give it a purpose (e.g. "Classwork Organizer") and an expiry date, then click **Generate Token**.
-4. Copy the token right away, because Canvas only shows it once. Put it in `CANVAS_API_TOKEN`.
+3. Give it a purpose and an expiry date, then click **Generate Token**.
+4. Copy the token right away, because Canvas only shows it once.
 
-The token can read everything your Canvas account can see, so keep it private. Only set it in `.env.local` or in your Vercel project settings, and never commit it. Some schools disable personal tokens; if so, Canvas will show an error and the other sources will still work.
-
-### Adding course pages
+#### Adding course pages
 
 `COURSE_PAGES` is a JSON array. Each entry needs a `label` and a `url`:
 
 ```json
 [
-  { "label": "CS 101 site", "url": "https://example.edu/cs101/schedule.html", "course": "CS 101" },
+  { "label": "15-113 site", "url": "https://example.edu/15113/schedule.html", "course": "15-113" },
   { "label": "Chem lab schedule", "url": "https://example.edu/chem/labs" }
 ]
 ```
 
-- `course` (optional) is the course name shown on each item. It defaults to `label`.
+- `course` (optional) is the course name shown on each item. Match the name Canvas uses so both sources share a color. It defaults to `label`.
 - `parser` (optional) picks a parser from `PAGE_PARSERS` in `lib/sources/coursePage/index.ts`. It defaults to `generic`.
 
-The generic parser scans tables and text for lines that contain **both** a date (e.g. `Oct 12`, `10/12`, `2026-10-12`, optionally with a time) **and** a keyword (`quiz`, `exam`, `midterm`, `final`, `homework`, `HW`, `project`, `lab`, `essay`, `due`, …). In a table row, a date in one cell applies to keyword items in the other cells. Dates without a year use the year closest to today, and dates without a time are treated as due at 11:59 PM.
+The generic parser handles dates like `Oct 12`, `10/12`, and `2026-10-12`, with optional times. In a table row, a date in one cell applies to items in the other cells. Dates without a year use the year closest to today, and dates without a time are treated as due at 11:59 PM. Pages that need a login, or that build their content with JavaScript, can't be read; the app shows a notice for those instead of guessing.
 
-Limitations: pages that build their content with JavaScript, or that sit behind a login, can't be read. The app shows a notice for those pages instead of guessing. To handle a tricky page, write a parser with the `PageParser` signature in `lib/sources/coursePage/types.ts`, register it in `PAGE_PARSERS`, and set `"parser": "<name>"` on that page.
+### Deploying to GitHub Pages (current setup)
 
-## Running locally
+GitHub Pages only serves static files, so it can't run the app's API route. Instead, [`.github/workflows/pages.yml`](.github/workflows/pages.yml) fetches Canvas and the course pages inside GitHub Actions and saves the result as `coursework.json`. It then builds a static copy of the site and publishes it. This runs on every push to `main` and once an hour, so the data can be up to about an hour old.
 
-```bash
-npm install
-```
+Setup, under **Settings → Secrets and variables → Actions**:
 
-```bash
-cp .env.example .env.local
-```
-
-Fill in `.env.local`, then:
-
-```bash
-npm run dev
-```
-
-Open http://localhost:3000.
-
-## Deploying to Vercel
-
-1. Push this repo to GitHub.
-2. In Vercel, click **Add New → Project** and import the repo. The Next.js defaults work as-is.
-3. Under **Settings → Environment Variables**, add `CANVAS_BASE_URL`, `CANVAS_API_TOKEN`, `COURSE_PAGES`, and `APP_TIMEZONE`.
-4. Deploy. If you change environment variables later, redeploy from the **Deployments** tab so the change takes effect.
-
-The page is public and anyone with the URL can see the coursework it shows. Don't share the URL if that matters to you, or turn on Vercel's Deployment Protection.
-
-## Deploying to GitHub Pages
-
-GitHub Pages only serves static files, so it can't run the API route. Instead,
-[`.github/workflows/pages.yml`](.github/workflows/pages.yml) fetches Canvas and your course pages
-inside GitHub Actions, where the token stays secret. It saves the result as `coursework.json`,
-builds a static copy of the site, and publishes it. This runs on every push to `main` and
-**once an hour**, so the data can be up to about an hour old (the footer shows when it was last
-updated).
-
-Setup, in the repo on GitHub, under **Settings → Secrets and variables → Actions**:
-
-1. **Secrets** tab → **New repository secret**: `CANVAS_API_TOKEN`.
-2. **Variables** tab → **New repository variable**: `CANVAS_BASE_URL`, `APP_TIMEZONE`, and optionally `COURSE_PAGES`.
+1. **Secrets** tab: add `CANVAS_API_TOKEN`.
+2. **Variables** tab: add `CANVAS_BASE_URL`, `APP_TIMEZONE`, and optionally `COURSE_PAGES`.
 3. **Actions** tab → **Deploy to GitHub Pages** → **Run workflow** to publish right away.
 
-The site is at `https://<your-username>.github.io/<repo-name>/`. Notes:
+GitHub pauses scheduled workflows in repositories with no activity for 60 days. If the data stops updating, re-enable the workflow on the Actions tab.
 
-- The token is never sent to the browser, but the fetched assignment list (`coursework.json`) is
-  as public as the page itself.
-- GitHub pauses scheduled workflows in repos with no activity for 60 days. If the data stops
-  updating, re-enable the workflow on the Actions tab.
+### Deploying to Vercel (alternative, live data)
 
-## Project layout
+On Vercel, the API route runs on every page load, so the data is always live. Import the repository at https://vercel.com/new, add the same environment variables under **Settings → Environment Variables**, and deploy. To keep the page private, turn on **Deployment Protection**.
+
+### Project layout
 
 ```
-app/api/coursework/route.ts       live API: runs every source in parallel
-lib/sources/index.ts              source registry, per-source timeout and error isolation
-lib/sources/canvas.ts             Canvas REST API source
-lib/sources/coursePage/           course page source, generic parser, parser registry
-lib/types.ts                      shared CourseworkItem shape
-lib/dates.ts                      timezone helpers shared by server and browser
-components/                       UI: Tracker (shell), calendar/ (Month, TimeGrid), RightPanel, AgendaList, dialogs
-lib/calendar.ts, lib/courseColors.ts  calendar math and course colors
-scripts/fetch-coursework.ts       writes the data snapshot for GitHub Pages
+app/api/coursework/route.ts         live API: runs every source in parallel
+lib/sources/index.ts                source registry, per-source timeout and error isolation
+lib/sources/canvas.ts               Canvas REST API source
+lib/sources/coursePage/             course page source, generic parser, parser registry
+lib/types.ts                        shared CourseworkItem shape
+lib/dates.ts                        timezone helpers shared by server and browser
+lib/calendar.ts                     calendar date math
+lib/courseColors.ts                 course color assignment
+components/                         UI: Tracker (shell), calendar/ (Month, TimeGrid), panels, dialogs
+scripts/fetch-coursework.ts         writes the data snapshot for GitHub Pages
+.github/workflows/pages.yml         hourly GitHub Pages build and deploy
 ```
