@@ -37,13 +37,6 @@ export function Sidebar({ section, onSection }: { section: Section; onSection: (
           </button>
         ))}
       </nav>
-      <div className="sidebar-foot">
-        <p className="tagline">
-          Small steps,
-          <br />
-          big progress.
-        </p>
-      </div>
     </aside>
   );
 }

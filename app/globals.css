@@ -94,9 +94,6 @@ h1, h2, h3 { margin: 0; }
 }
 .nav-item:hover { background: var(--surface-2); color: var(--ink); }
 .nav-item.is-active { background: var(--sage-soft); color: var(--sage-ink); font-weight: 600; }
-.sidebar-foot { margin-top: auto; padding: 0 12px; }
-.tagline { font-size: 13px; color: var(--muted); margin: 0 0 10px; line-height: 1.35; }
-.tagline::after { content: ""; display: block; width: 44px; height: 1px; background: var(--sage); margin-top: 10px; opacity: 0.6; }
 
 .main { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
 
@@ -372,7 +369,7 @@ button.tg-dayhead:hover .tg-date { background: var(--surface-2); }
   .app { grid-template-columns: 60px minmax(0, 1fr); }
   .sidebar { padding: 18px 8px; align-items: center; }
   .brand { padding: 0 0 20px; }
-  .brand-name, .nav-label, .sidebar-foot { display: none; }
+  .brand-name, .nav-label { display: none; }
   .nav-item { padding: 10px; justify-content: center; }
   .agenda-row { grid-template-columns: 18px 3px minmax(0, 1fr) 150px; }
   .agenda-points, .agenda-status, .agenda-source { display: none; }
