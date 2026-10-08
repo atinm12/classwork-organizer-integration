@@ -23,7 +23,7 @@
 ```
 i want to create a classwork organizer. for now, just create a new page a repo on github that includes the titel "Classwork organizer + third party integration", which will connect to canvas and third party website that the user will prompt, so have a user prompt button somewhere as well.
 ```
-Claude Code built a static HTML/CSS/JS page with the title, a placeholder "Connect Canvas" button, and an "Add a website" button that asks for a name and URL. It created the public repo `classwork-organizer-integration`. My account already had a repo called `classwork-organizer`, so it picked a new name instead of overwriting that one. It also turned on GitHub Pages.
+Claude Code built a static HTML/CSS/JS page with the title, a placeholder "Connect Canvas" button, and an "Add a website" button that asks for a name and URL. It created the public repo `classwork-organizer-integration`. It also turned on GitHub Pages.
 
 **Prompt 2**
 ```
